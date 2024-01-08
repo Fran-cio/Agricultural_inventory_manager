@@ -8,7 +8,8 @@ from .forms import ArticuloForm
 def gestionar_articulos(request):
     if request.method == 'POST':
         Articulo.objects.create(
-            name=request.POST['name'], unity_id=request.POST['unity_id'])
+            name=request.POST['name'].upper(),
+            unity_id=request.POST['unity_id'])
         return redirect('gestionar_articulos')
 
     articulos = Articulo.objects.all()
