@@ -2,7 +2,7 @@
 
 from django import forms
 
-from .models import Articulo, Unity_cat
+from .models import Unity_cat
 
 
 class ArticuloForm(forms.Form):
