@@ -1,0 +1,26 @@
+
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Artículos</title>
+</head>
+<body>
+    <h1>Remitos</h1>
+    <h2>Agregar Remitos</h2>
+
+<!-- templates/agregar_remito.html -->
+<form method="post">
+    {% csrf_token %}
+    {{ remito_form.as_p }}
+
+    {% for form in transaccion_formset %}
+        {{ form.as_p }}
+    {% endfor %}
+
+    <button type="submit">Agregar Remito</button>
+</form>
+

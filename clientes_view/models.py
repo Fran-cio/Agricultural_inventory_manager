@@ -1,10 +1,7 @@
 from django.db import models
 
+from location_view.models import Localidad
 # Create your models here.
-
-
-class Localidad(models.Model):
-    name = models.CharField(max_length=100)
 
 
 class Iva_cat(models.Model):

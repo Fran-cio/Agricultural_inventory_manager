@@ -1,0 +1,21 @@
+
+<!-- templates/del_provincia.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Borrado</title>
+</head>
+<body>
+    <h1>Confirmar Borrado</h1>
+    <p>¿Estás seguro de que deseas borrar "{{ localidad.name }}"?</p>
+    
+    <form method="post" action="{% url 'del_localidad' pais provincia localidad.id %}">
+        {% csrf_token %}
+        <button type="submit">Sí, borrar</button>
+    </form>
+    
+    <a href="{% url 'gestionar_localidades' pais provincia%}">Cancelar</a>
+</body>
+</html>

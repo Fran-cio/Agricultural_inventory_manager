@@ -1,0 +1,49 @@
+
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Paises</title>
+</head>
+<body>
+    <h1>Paises</h1>
+    <h2>Agregar Pais</h2>
+    <!-- Formulario para agregar artículo -->
+    <form method="post" action="{% url 'gestionar_paises' %}">
+        {% csrf_token %}
+        <label for="name">Nombre:</label>
+        <input type="text" name="name" required>
+        <button type="submit">Agregar Pais</button>
+    </form>
+
+    <h2>Lista de Paises</h2>
+    <!-- Tabla para mostrar artículos existentes -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pais in paises %}
+                <tr>
+                    <td>
+                        <a href="/pais/{{pais.name}}"> {{ pais.name }}</a>
+                    </td>
+                    <td>
+                        <form method="get" action="{% url 'del_pais' pais.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Borrar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
