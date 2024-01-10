@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import gestionar_paises, del_pais, gestionar_provincias, del_provincia, gestionar_localidades, del_localidad
+from .views import gestionar_paises, del_pais, gestionar_provincias, del_provincia, gestionar_localidades, del_localidad, gestionar_localidad
 
 urlpatterns = [
     path('', gestionar_paises, name='gestionar_paises'),
@@ -12,6 +12,7 @@ urlpatterns = [
          gestionar_localidades, name='gestionar_localidades'),
     path('<str:pais_name>/<str:provincia_name>/del_localidad/<int:localidad_id>',
          del_localidad, name='del_localidad'),
-
+    path('<str:pais_name>/<str:provincia_name>/<str:localidad_name>',
+         gestionar_localidad, name='gestionar_localidad'),
     # ... otras rutas
 ]

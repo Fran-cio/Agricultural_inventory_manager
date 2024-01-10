@@ -3,53 +3,57 @@
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Provincias</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Localidades de {{ provincia }}</h1>
 
     {% if pais != "ARGENTINA" %}
     <h2>Agregar Localidad</h2>
     <!-- Formulario para agregar artículo -->
     <form method="post" action="{% url 'gestionar_localidades' pais provincia %}">
-        {% csrf_token %}
-        <label for="name">Nombre:</label>
-        <input type="text" name="name" required>
-        <button type="submit">Agregar Localidad</button>
+      {% csrf_token %}
+      <label for="name">Nombre:</label>
+      <input type="text" name="name" required>
+      <button type="submit">Agregar Localidad</button>
     </form>
     {% endif %}
     <h2>Lista de Localidades</h2>
     <!-- Tabla para mostrar artículos existentes -->
     <table border="1">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                {% if pais != "ARGENTINA" %}
-                <th>Acciones</th>
-                {% endif %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for localidad in localidades %}
-                <tr>
-                    <td>
-                        <a href="pais/{{pais}}/{{localidad.name}}"> {{ localidad.name }}</a>
-                    </td>
-                    {% if pais != "ARGENTINA" %}
-                    <td>
-                        <form method="get" action="{% url 'del_localidad' pais provincia localidad.id %}">
-                            {% csrf_token %}
-                            <button type="submit">Borrar</button>
-                        </form>
-                    </td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-        </tbody>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Usuarios</th>
+          {% if pais != "ARGENTINA" %}
+          <th>Acciones</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for localidad in localidades %}
+        <tr>
+          <td>
+            <a href="{{localidad.name}}"> {{ localidad.name }}</a>
+          </td>
+          <td>
+            {{ localidad.cantidad_sujetos}}
+          </td>
+          {% if pais != "ARGENTINA" %}
+          <td>
+            <form method="get" action="{% url 'del_localidad' pais provincia localidad.id %}">
+              {% csrf_token %}
+              <button type="submit">Borrar</button>
+            </form>
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
-</body>
+  </body>
 </html>
 

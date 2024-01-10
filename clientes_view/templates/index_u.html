@@ -3,62 +3,55 @@
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Artículos</title>
-</head>
-<body>
-    <h1>Usuarios</h1>
-    <h2>Agregar usuario</h2>
-    <!-- Formulario para agregar artículo -->
-    <form method="post" action="{% url 'gestionar_sujetos' %}">
-        {% csrf_token %}
-        <label for="name">Nombre:</label>
-        <input type="text" name="name" required>
-        <label for="location">Localidad:</label>
-        <input type="text" name="location" required>
-        <label for="address">Direccion:</label>
-        <input type="text" name="address" required>
-        <label for="CUIT">CUIT:</label>
-        <input type="Integer" name="cuit" required>
-        <label for="iva_id">Iva:</label>
-        {{ form.iva_id}}
-
-        <button type="submit">Agregar Usuario</button>
-    </form>
-
+  </head>
+  <body>
     <h2>Lista de sujetos</h2>
     <!-- Tabla para mostrar artículos existentes -->
     <table border="1">
-        <thead>
-            <tr>
-                <th>CUIT</th>
-                <th>Nombre</th>
-                <th>Localidad</th>
-                <th>Direccion</th>
-                <th>IVA</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for sujeto in sujetos %}
-                <tr>
-                    <td>{{ sujeto.cuit}}</td>
-                    <td>{{ sujeto.name }}</td>
-                    <td>{{ sujeto.location.name}}</td>
-                    <td>{{ sujeto.address  }}</td>
-                    <td>{{ sujeto.iva.name }}</td>
-                    <td>
-                        <form method="get" action="{% url 'del_sujeto' sujeto.id %}">
-                            {% csrf_token %}
-                            <button type="submit">Borrar</button>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
+      <thead>
+        <tr>
+          <th>CUIT</th>
+          <th>Nombre</th>
+          <th>Pais</th>
+          <th>Provincia</th>
+          <th>Localidad</th>
+          <th>Direccion</th>
+          <th>IVA</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sujeto in sujetos %}
+        <tr>
+          <td>
+            <a href="{{ sujeto.cuit }}"> {{ sujeto.cuit }}</a>
+          </td>
+          <td>{{ sujeto.name }}</td>
+          <td>
+            <a href="/pais/{{sujeto.location.provincia.pais.name}}"> {{ sujeto.location.provincia.pais.name }}</a>
+          </td>
+          <td>
+            <a href="/pais/{{sujeto.location.provincia.pais.name}}/{{sujeto.location.provincia.name}}"> {{ sujeto.location.provincia.name }}</a>
+          </td>
+          <td>
+            <a href="/pais/{{sujeto.location.provincia.pais.name}}/{{sujeto.location.provincia.name}}/{{sujeto.location.name}}"> {{ sujeto.location.name }}</a>
+          </td>
+          <td>{{ sujeto.address  }}</td>
+          <td>{{ sujeto.iva.name }}</td>
+          <td>
+            <form method="get" action="{% url 'del_sujeto' sujeto.id %}">
+              {% csrf_token %}
+              <button type="submit">Borrar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
-</body>
+  </body>
 </html>
 

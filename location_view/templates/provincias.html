@@ -3,53 +3,58 @@
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Provincias</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Provincias de {{ pais }}</h1>
     {% if pais != "ARGENTINA" %}
     <h2>Agregar Provincia</h2>
     <!-- Formulario para agregar artículo -->
     <form method="post" action="{% url 'gestionar_provincias' pais  %}">
-        {% csrf_token %}
-        <label for="name">Nombre:</label>
-        <input type="text" name="name" required>
-        <button type="submit">Agregar Provincia</button>
+      {% csrf_token %}
+      <label for="name">Nombre:</label>
+      <input type="text" name="name" required>
+      <button type="submit">Agregar Provincia</button>
     </form>
     {% endif %}
 
     <h2>Lista de Provincias</h2>
     <!-- Tabla para mostrar artículos existentes -->
     <table border="1">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                {% if pais != "ARGENTINA" %}
-                <th>Acciones</th>
-                {% endif%}
-            </tr>
-        </thead>
-        <tbody>
-            {% for provincia in provincias %}
-                <tr>
-                    <td>
-                        <a href="/pais/{{pais}}/{{provincia.name}}"> {{ provincia.name }}</a>
-                    </td>
-                    {% if pais != "ARGENTINA" %}
-                    <td>
-                        <form method="get" action="{% url 'del_provincia' pais provincia.id %}">
-                            {% csrf_token %}
-                            <button type="submit">Borrar</button>
-                        </form>
-                    </td>
-                    {% endif%}
-                </tr>
-            {% endfor %}
-        </tbody>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Usuarios</th>
+          {% if pais != "ARGENTINA" %}
+          <th>Acciones</th>
+          {% endif%}
+        </tr>
+      </thead>
+      <tbody>
+        {% for provincia in provincias %}
+        <tr>
+          <td>
+            <a href="{{provincia.name}}"> {{ provincia.name }}</a>
+          </td>
+          <td>
+            {{ provincia.cantidad_sujetos}}
+          </td>
+
+          {% if pais != "ARGENTINA" %}
+          <td>
+            <form method="get" action="{% url 'del_provincia' pais provincia.id %}">
+              {% csrf_token %}
+              <button type="submit">Borrar</button>
+            </form>
+          </td>
+          {% endif%}
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
-</body>
+  </body>
 </html>
 
