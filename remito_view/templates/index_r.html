@@ -3,24 +3,66 @@
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Artículos</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Remitos</h1>
     <h2>Agregar Remitos</h2>
 
-<!-- templates/agregar_remito.html -->
-<form method="post">
-    {% csrf_token %}
-    {{ remito_form.as_p }}
+    <!-- templates/agregar_remito.html -->
+    <form method="post">
+      {% csrf_token %}
+      <label for="id_remito">Numero de remito:</label>
+      <input type="Integer" name="id_remito" required>
+      <label for="provedor">Provedor:</label>
+      {{ form.provedor}}
+      <label for="cliente">Provedor:</label>
+      {{ form.cliente}}
+      <label for="fecha">Fecha:</label>
+      {{ form.fecha}}
+      <button type="submit">Agregar Remito</button>
+    </form>
+    <h2>Lista de Remitos</h2>
+    <!-- Tabla para mostrar artículos existentes -->
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Numero de remito</th>
+          <th>Provedor</th>
+          <th>Cliente</th>
+          <th>Fecha</th>
+          <th>Accion</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for remito in remitos %}
+        <tr>
+          <td>
+            <a href="{{remito.id_remito}}"> {{ remito.id_remito }}</a>
+          </td>
+          <td>
+            <a href=" /clientes/{{remito.provedor.name}}"> {{ remito.provedor.name}}</a>
+          </td>
+          <td>
+            <a href=" /clientes/{{remito.cliente.name}}"> {{ remito.cliente.name}}</a>
+          </td>
+          <td>
+            {{ remito.fecha|date:"d/m/Y" }}
+          </td>
+          <td>
+            <form method="get" action="{% url 'del_remito' remito.id %}">
+              {% csrf_token %}
+              <button type="submit">Borrar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
 
-    {% for form in transaccion_formset %}
-        {{ form.as_p }}
-    {% endfor %}
-
-    <button type="submit">Agregar Remito</button>
-</form>
 

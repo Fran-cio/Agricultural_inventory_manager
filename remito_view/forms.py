@@ -1,20 +1,23 @@
 # forms.py
 from django import forms
-from django.forms import inlineformset_factory
+
+from clientes_view.models import Sujeto
+
 from .models import Remito, Transaccion
 
 
-class TransaccionForm(forms.ModelForm):
-    class Meta:
-        model = Transaccion
-        fields = ['articulo', 'cantidad']
+class RemitoForm(forms.Form):
+    id_remito = forms.IntegerField()
+    provedor = forms.ChoiceField(
+        choices=[(sujeto.id, str(sujeto.cuit) + " - " + sujeto.name)
+                 for sujeto in Sujeto.objects.all().order_by("-name")])
+
+    cliente = forms.ChoiceField(
+        choices=[(sujeto.id, str(sujeto.cuit) + " - " + sujeto.name)
+                 for sujeto in Sujeto.objects.all().order_by("-name")])
+    fecha = forms.DateField(widget=forms.TextInput(
+        attrs={'class': 'form-control', 'type': 'date'}))
 
 
-TransaccionFormSet = inlineformset_factory(
-    Remito, Transaccion, form=TransaccionForm, extra=1)
-
-
-class RemitoForm(forms.ModelForm):
-    class Meta:
-        model = Remito
-        fields = ['provedor', 'cliente', 'fecha']
+class TransaccionForm(forms.Form):
+    print()
