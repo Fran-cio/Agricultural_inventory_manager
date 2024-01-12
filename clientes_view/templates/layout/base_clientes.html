@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de clientes</title>
+</head>
+  <body>
+    <nav class="navbar container">
+      <ul>
+        <li>
+          <a href="/pais">Gestor de por ubicacion</a>
+        </li>
+        <li>
+          <a href="/articulos">Inventario</a>
+        </li>
+        <li>
+          <a href="/remitos">Gestor de remitos</a>
+        </li>
+      </ul>
+    </nav>
+
+    <main class="container">
+      {% block content %}
+      {% endblock %}
+    </main>
+
+  </body>
+</html>
+

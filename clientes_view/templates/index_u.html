@@ -1,57 +1,52 @@
 
 <!-- templates/index.html -->
 
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Artículos</title>
-  </head>
-  <body>
-    <h2>Lista de sujetos</h2>
-    <!-- Tabla para mostrar artículos existentes -->
-    <table border="1">
-      <thead>
-        <tr>
-          <th>CUIT</th>
-          <th>Nombre</th>
-          <th>Pais</th>
-          <th>Provincia</th>
-          <th>Localidad</th>
-          <th>Direccion</th>
-          <th>IVA</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for sujeto in sujetos %}
-        <tr>
-          <td>
-            <a href="{{ sujeto.cuit }}"> {{ sujeto.cuit }}</a>
-          </td>
-          <td>{{ sujeto.name }}</td>
-          <td>
-            <a href="/pais/{{sujeto.location.provincia.pais.name}}"> {{ sujeto.location.provincia.pais.name }}</a>
-          </td>
-          <td>
-            <a href="/pais/{{sujeto.location.provincia.pais.name}}/{{sujeto.location.provincia.name}}"> {{ sujeto.location.provincia.name }}</a>
-          </td>
-          <td>
-            <a href="/pais/{{sujeto.location.provincia.pais.name}}/{{sujeto.location.provincia.name}}/{{sujeto.location.name}}"> {{ sujeto.location.name }}</a>
-          </td>
-          <td>{{ sujeto.address  }}</td>
-          <td>{{ sujeto.iva.name }}</td>
-          <td>
-            <form method="get" action="{% url 'del_sujeto' sujeto.id %}">
-              {% csrf_token %}
-              <button type="submit">Borrar</button>
-            </form>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </body>
-</html>
+{% extends 'layout/base_clientes.html' %}
 
+{% block content %}
+
+
+<h2>Lista de sujetos</h2>
+<!-- Tabla para mostrar artículos existentes -->
+<table border="1">
+  <thead>
+    <tr>
+      <th>CUIT</th>
+      <th>Nombre</th>
+      <th>Pais</th>
+      <th>Provincia</th>
+      <th>Localidad</th>
+      <th>Direccion</th>
+      <th>IVA</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for sujeto in sujetos %}
+    <tr>
+      <td>
+        <a href="{{ sujeto.cuit }}"> {{ sujeto.cuit }}</a>
+      </td>
+      <td>{{ sujeto.name }}</td>
+      <td>
+        <a href="/pais/{{sujeto.location.provincia.pais.name}}"> {{ sujeto.location.provincia.pais.name }}</a>
+      </td>
+      <td>
+        <a href="/pais/{{sujeto.location.provincia.pais.name}}/{{sujeto.location.provincia.name}}"> {{ sujeto.location.provincia.name }}</a>
+      </td>
+      <td>
+        <a href="/pais/{{sujeto.location.provincia.pais.name}}/{{sujeto.location.provincia.name}}/{{sujeto.location.name}}"> {{ sujeto.location.name }}</a>
+      </td>
+      <td>{{ sujeto.address  }}</td>
+      <td>{{ sujeto.iva.name }}</td>
+      <td>
+        <form method="get" action="{% url 'del_sujeto' sujeto.id %}">
+          {% csrf_token %}
+          <button type="submit">Borrar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}    

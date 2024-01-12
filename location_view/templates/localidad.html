@@ -1,55 +1,49 @@
 
 <!-- templates/index.html -->
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Provincias</title>
-</head>
-<body>
-    <h1>Personas en {{ localidad }}, {{ provincia }}</h1>
+{% extends 'layout/base_location.html' %}
 
-    <h2>Agregar Persona</h2>
-    <!-- Formulario para agregar artículo -->
-    <form method="post" action="{% url 'gestionar_localidad' pais provincia localidad %}">
-        {% csrf_token %}
-        <label for="name">Nombre:</label>
-        <input type="text" name="name" required>
-        <label for="address">Direccion:</label>
-        <input type="text" name="address" required>
-        <label for="CUIT">CUIT:</label>
-        <input type="Integer" name="cuit" required>
-        <label for="iva_id">Iva:</label>
-        {{ form.iva_id}}
+{% block content %}
+<h1>Personas en {{ localidad }}, {{ provincia }}</h1>
 
-        <button type="submit">Agregar persona</button>
-    </form>
-    <h2>Lista de personas</h2>
-    <!-- Tabla para mostrar artículos existentes -->
-    <table border="1">
-        <thead>
-            <tr>
-                <th>CUIT</th>
-                <th>Nombre</th>
-                <th>Direccion</th>
-                <th>IVA</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for sujeto in sujetos %}
-                <tr>
-                    <td>
-                      <a href="/clientes/{{ sujeto.cuit }}"> {{ sujeto.cuit }}</a>
-                    </td>
-                    <td>{{ sujeto.name }}</td>
-                    <td>{{ sujeto.address  }}</td>
-                    <td>{{ sujeto.iva.name }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+<h2>Agregar Persona</h2>
+<!-- Formulario para agregar artículo -->
+<form method="post" action="{% url 'gestionar_localidad' pais provincia localidad %}">
+  {% csrf_token %}
+  <label for="name">Nombre:</label>
+  <input type="text" name="name" required>
+  <label for="address">Direccion:</label>
+  <input type="text" name="address" required>
+  <label for="CUIT">CUIT:</label>
+  <input type="Integer" name="cuit" required>
+  <label for="iva_id">Iva:</label>
+  {{ form.iva_id}}
 
+  <button type="submit">Agregar persona</button>
+</form>
+<h2>Lista de personas</h2>
+<!-- Tabla para mostrar artículos existentes -->
+<table border="1">
+  <thead>
+    <tr>
+      <th>CUIT</th>
+      <th>Nombre</th>
+      <th>Direccion</th>
+      <th>IVA</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for sujeto in sujetos %}
+    <tr>
+      <td>
+        <a href="/clientes/{{ sujeto.cuit }}"> {{ sujeto.cuit }}</a>
+      </td>
+      <td>{{ sujeto.name }}</td>
+      <td>{{ sujeto.address  }}</td>
+      <td>{{ sujeto.iva.name }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
