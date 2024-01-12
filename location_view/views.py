@@ -47,7 +47,6 @@ def gestionar_provincias(request, pais_name):
     sujetos_por_provincia = Provincia.objects.filter(pais=pais).annotate(
         cantidad_sujetos=Coalesce(Count('localidad__sujeto'), Value(0))
     ).values('id', 'name', 'cantidad_sujetos').order_by('-cantidad_sujetos')
-    print(sujetos_por_provincia)
 
     return render(request, 'provincias.html',
                   {'form': addForm(),

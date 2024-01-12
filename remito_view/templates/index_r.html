@@ -15,8 +15,8 @@
     <!-- templates/agregar_remito.html -->
     <form method="post">
       {% csrf_token %}
-      <label for="id_remito">Numero de remito:</label>
-      <input type="Integer" name="id_remito" required>
+      <label for="nro_remito">Numero de remito:</label>
+      <input type="Integer" name="nro_remito" required>
       <label for="provedor">Provedor:</label>
       {{ form.provedor}}
       <label for="cliente">Provedor:</label>
@@ -41,13 +41,13 @@
         {% for remito in remitos %}
         <tr>
           <td>
-            <a href="{{remito.id_remito}}"> {{ remito.id_remito }}</a>
+            <a href="{{remito.nro_remito}}"> {{ remito.nro_remito }}</a>
           </td>
           <td>
-            <a href=" /clientes/{{remito.provedor.name}}"> {{ remito.provedor.name}}</a>
+            <a href=" /clientes/{{remito.provedor.cuit}}"> {{ remito.provedor.name}}</a>
           </td>
           <td>
-            <a href=" /clientes/{{remito.cliente.name}}"> {{ remito.cliente.name}}</a>
+            <a href=" /clientes/{{remito.cliente.cuit}}"> {{ remito.cliente.name}}</a>
           </td>
           <td>
             {{ remito.fecha|date:"d/m/Y" }}

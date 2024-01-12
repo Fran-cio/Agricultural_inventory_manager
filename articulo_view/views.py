@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db import models
 
 from .models import Articulo
 from .forms import ArticuloForm
+
+from remito_view.models import Transaccion
+from clientes_view.models import Sujeto
 # Create your views here.
 
 
@@ -12,9 +16,32 @@ def gestionar_articulos(request):
             unity_id=request.POST['unity_id'])
         return redirect('gestionar_articulos')
 
-    articulos = Articulo.objects.all()
+    articulos_info = []
+
+    for articulo in Articulo.objects.all():
+        ingresos = Transaccion.objects.filter(articulo=articulo,
+                                              remito__cliente__cuit=20160761661,
+                                              ).aggregate(
+            models.Sum('cantidad'))['cantidad__sum'] or 0
+        egresos = Transaccion.objects.filter(articulo=articulo,
+                                             remito__provedor__cuit=20160761661,
+                                             ).aggregate(
+            models.Sum('cantidad'))['cantidad__sum'] or 0
+
+        stock_total = ingresos - egresos
+
+        # Crear una estructura de datos personalizada para contener información del artículo y stock total
+        articulo_info = {
+            'id': articulo.id,
+            'name': articulo.name,
+            'unity': articulo.unity,
+            'stock_total': stock_total,
+        }
+        # Agregar la información del artículo a la lista
+        articulos_info.append(articulo_info)
+
     return render(request, 'index.html',
-                  {'form': ArticuloForm(), 'articulos': articulos})
+                  {'form': ArticuloForm(), 'articulos': articulos_info})
 
 
 def del_articulo(request, articulo_id):
@@ -25,3 +52,31 @@ def del_articulo(request, articulo_id):
         return redirect('gestionar_articulos')
 
     return render(request, 'del_articulo.html', {'articulo': articulo})
+
+
+def gestionar_articulo(request, articulo_name):
+    articulo = Articulo.objects.get(name=articulo_name)
+    usuario = Sujeto.objects.get(cuit=20160761661)
+
+    # Obtén todas las transacciones asociadas a este Articulo
+    transacciones_cliente = Transaccion.objects.filter(
+        articulo=articulo, remito__cliente=usuario)
+
+    transacciones_provedor = Transaccion.objects.filter(
+        articulo=articulo, remito__provedor=usuario)
+
+
+# Calcular la suma del campo cantidad para cada lista de transacciones
+    suma_cantidad_cliente = transacciones_cliente.aggregate(
+        suma_cantidad=models.Sum('cantidad'))['suma_cantidad'] or 0
+    suma_cantidad_proveedor = transacciones_provedor.aggregate(
+        suma_cantidad=models.Sum('cantidad'))['suma_cantidad'] or 0
+
+    return render(request, 'articulo.html',
+                  {'articulo_name': articulo_name,
+                   'transacciones_cliente': transacciones_cliente,
+                   'transacciones_provedor': transacciones_provedor,
+                   'cantidad_ingresados': suma_cantidad_cliente,
+                   'cantidad_egresados': suma_cantidad_proveedor,
+                   'stock_neto': suma_cantidad_cliente
+                           - suma_cantidad_proveedor})

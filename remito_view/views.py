@@ -12,7 +12,7 @@ def gestionar_remito(request):
         if (request.POST['provedor'] != request.POST['cliente']):
             try:
                 Remito.objects.create(
-                    id_remito=request.POST['id_remito'].upper(),
+                    nro_remito=request.POST['nro_remito'].upper(),
                     provedor_id=request.POST['provedor'],
                     cliente_id=request.POST['cliente'],
                     fecha=request.POST['fecha'])
@@ -21,7 +21,6 @@ def gestionar_remito(request):
         return redirect('gestionar_remito')
 
     remitos = Remito.objects.all().order_by('-fecha')
-    print(remitos.values())
 
     return render(request, 'index_r.html',
                   {'form': RemitoForm(), 'remitos': remitos})
@@ -35,3 +34,32 @@ def del_remito(request, remito_id):
         return redirect('gestionar_remito')
 
     return render(request, 'del_remito.html', {'remito': remito})
+
+
+def gestionar_transacciones(request, nro_remito):
+    remito = get_object_or_404(Remito, nro_remito=nro_remito)
+
+    if request.method == 'POST':
+        try:
+            Transaccion.objects.create(
+                remito=remito,
+                articulo_id=request.POST['articulo'],
+                cantidad=request.POST['cantidad'],
+            )
+        except Exception as e:
+            print(e)
+        return redirect('gestionar_transacciones', nro_remito)
+
+    transacciones = Transaccion.objects.filter(
+        remito=remito).order_by('-articulo__name')
+
+    return render(request, 'index_transacciones.html',
+                  {'form': TransaccionForm(),
+                   'remito': remito, 'transacciones': transacciones})
+
+
+def del_transaccion(request, nro_remito, transaccion_id):
+    transaccion = get_object_or_404(Transaccion, id=transaccion_id)
+
+    transaccion.delete()
+    return redirect('gestionar_transacciones', nro_remito)

@@ -1,0 +1,59 @@
+
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Artículos</title>
+  </head>
+  <body>
+    <h1>Remito Nr. {{ remito.nro_remito }}</h1>
+    <th>Proveedor: <a href=" /clientes/{{remito.provedor.cuit}}"> {{ remito.provedor.name}}</a> </th> <br>
+    <th>Cliente: <a href=" /clientes/{{remito.cliente.cuit}}"> {{ remito.cliente.name}}</a> </th><br>
+    <th>Fecha: {{ remito.fecha|date:"d/m/y" }}</th>
+    <h2>Agregar insumos</h2>
+    <!-- templates/agregar_transaccion.html -->
+    <form method="post">
+      {% csrf_token %}
+      <label for="articulo">Articulo:</label>
+      {{ form.articulo}}
+      <label for="cantidad">Cantidad:</label>
+      <input type="integer" name="cantidad" required>
+      <br>
+      <button type="submit">Agregar</button>
+    </form>
+    <h2>Lista de insumos</h2>
+    <!-- tabla para mostrar artículos existentes -->
+    <table border="1">
+      <thead>
+        <tr>
+          <th>articulo</th>
+          <th>cantidad</th>
+          <th>accion</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for transaccion in transacciones %}
+        <tr>
+          <td>
+            <a href="/articulo/{{transaccion.articulo.name}}"> {{ transaccion.articulo.name }}</a>
+          </td>
+          <td>
+            {{ transaccion.cantidad }} {{ transaccion.articulo.unity.name}}
+          </td>
+          <td>
+            <form method="get" action="{% url 'del_transaccion' remito.nro_remito transaccion.id %}">
+              {% csrf_token %}
+              <button type="submit">Borrar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
+
+
