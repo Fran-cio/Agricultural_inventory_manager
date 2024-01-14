@@ -3,12 +3,17 @@
 
 
 {% extends 'layout/base_remito.html' %}
+
+{% load static %}
+
 {% block content %}
+
 
 <h1>Remito Nr. {{ remito.nro_remito }}</h1>
 <th>Proveedor: <a href=" /clientes/{{remito.provedor.cuit}}"> {{ remito.provedor.name}}</a> </th> <br>
 <th>Cliente: <a href=" /clientes/{{remito.cliente.cuit}}"> {{ remito.cliente.name}}</a> </th><br>
-<th>Fecha: {{ remito.fecha|date:"d/m/y" }}</th>
+<th>Fecha: {{ remito.fecha|date:"d/m/y" }}</th><br><br><br>
+<th><a href="{% url 'generar_pdf_remito' remito.id %}" target="_blank">Descargar Remito en PDF</a></th>
 <h2>Agregar insumos</h2>
 <!-- templates/agregar_transaccion.html -->
 <form method="post">
@@ -25,9 +30,9 @@
 <table border="1">
   <thead>
     <tr>
-      <th>articulo</th>
-      <th>cantidad</th>
-      <th>accion</th>
+      <th>Articulo</th>
+      <th>Cantidad</th>
+      <th>Accion</th>
     </tr>
   </thead>
   <tbody>
@@ -49,4 +54,6 @@
     {% endfor %}
   </tbody>
 </table>
+
+
 {% endblock %}    
