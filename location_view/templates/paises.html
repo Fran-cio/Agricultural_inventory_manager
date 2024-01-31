@@ -22,7 +22,6 @@
     <tr>
       <th>Nombre</th>
       <th>Usuarios</th>
-      <th>Acciones</th>
     </tr>
   </thead>
   <tbody>
@@ -33,12 +32,6 @@
       </td>
       <td>
         {{ pais.cantidad_sujetos}}
-      </td>
-      <td>
-        <form method="get" action="{% url 'del_pais' pais.id %}">
-          {% csrf_token %}
-          <button type="submit">Borrar</button>
-        </form>
       </td>
     </tr>
     {% endfor %}

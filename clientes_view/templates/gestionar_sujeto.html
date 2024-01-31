@@ -25,13 +25,13 @@
     </tr>
   </thead>
   <tbody>
-    {% for remito in remitos_cliente %}
+    {% for remito in remitos_provedor%}
     <tr>
       <td>
         <a href="/remitos/{{remito.nro_remito}}"> {{ remito.nro_remito }}</a>
       </td>
       <td>
-        <a href=" /clientes/{{remito.provedor.cuit}}"> {{ remito.provedor.name}}</a>
+        <a href=" /clientes/{{remito.cliente.cuit}}"> {{ remito.cliente.name}}</a>
       </td>
       <td>
         {{ remito.fecha|date:"d/m/Y" }}
@@ -51,13 +51,13 @@
     </tr>
   </thead>
   <tbody>
-    {% for remito in remitos_provedor %}
+    {% for remito in remitos_cliente%}
     <tr>
       <td>
         <a href="/remitos/{{remito.nro_remito}}"> {{ remito.nro_remito }}</a>
       </td>
       <td>
-        <a href=" /clientes/{{remito.cliente.cuit}}"> {{ remito.cliente.name}}</a>
+        <a href=" /clientes/{{remito.provedor.cuit}}"> {{ remito.provedor.name}}</a>
       </td>
       <td>
         {{ remito.fecha|date:"d/m/Y" }}

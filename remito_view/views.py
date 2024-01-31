@@ -84,6 +84,13 @@ def generar_pdf_remito(request, remito_id):
 
     # Prepara la respuesta HTTP con el archivo PDF
     response = HttpResponse(pdf_file, content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="remito.pdf"'
+
+    # Formatea la fecha en el formato deseado
+    fecha_formato = remito.fecha.strftime('%d%m%Y')
+
+    # Construye el nombre del archivo
+    nombre_archivo = f'Remito_Nro{remito.nro_remito}_{fecha_formato}_{remito.cliente.name}.pdf'
+
+    response['Content-Disposition'] = f'filename={nombre_archivo}'
 
     return response
