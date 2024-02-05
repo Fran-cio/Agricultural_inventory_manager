@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-6-r^&$l@d1d^%1lfrzg^5ztc#s4*x+-iesc09kc@m!^4r^vw8d
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '192.168.10.116'
+    '192.168.10.116',
+    '127.0.0.1'
 ]
 
 
@@ -110,9 +111,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ARG'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Argentina/Buenos_Aires'
 
 USE_I18N = True
 
@@ -123,7 +124,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
