@@ -1,21 +1,18 @@
 
 <!-- templates/del_articulo.html -->
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmar Borrado</title>
-</head>
-<body>
-    <h1>Confirmar Borrado</h1>
-    <p>¿Estás seguro de que deseas borrar "{{ articulo.name }}"?</p>
-    
-    <form method="post" action="{% url 'del_articulo' articulo.id %}">
-        {% csrf_token %}
-        <button type="submit">Sí, borrar</button>
-    </form>
-    
+{% extends 'layout/base_delete.html' %}
+{% block content %}
+<h3>¿Estás seguro de que deseas borrar el articulo "{{ articulo.name }}"?</h3>
+<form method="post" action="{% url 'del_articulo' articulo.id %}">
+  {% csrf_token %}
+
+  <button type="submit"class="btn btn-danger">Sí, borrar</button>
+
+  <button type="button" class="btn btn-outline-primary">
+
     <a href="{% url 'gestionar_articulos' %}">Cancelar</a>
-</body>
-</html>
+  </button>
+</form>
+
+{%endblock%}
+

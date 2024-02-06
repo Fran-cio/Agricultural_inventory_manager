@@ -7,18 +7,18 @@
 
 
 <h1>{{ sujeto.name }}</h1>
-<address>
+<p class="lead">
   Domicilio: {{sujeto.address}}, {{ sujeto.location.name}}, {{ sujeto.location.provincia.name}}, {{ sujeto.location.provincia.pais.name}}<br>
     Cuit: {{sujeto.cuit}}<br>
     IVA: {{sujeto.iva.name}}<br>
-</address>
+</p>
 
 <h2>Lista de remitos</h2>
 <h3>Ingresos</h3>
 <!-- Tabla para mostrar artículos existentes -->
-<table border="1">
+<table border="1" class="table table-hover">
   <thead>
-    <tr>
+    <tr class="table-success">
       <th>Numero de remito</th>
       <th>Provedor</th>
       <th>Fecha</th>
@@ -42,9 +42,9 @@
 </table>
 <h3>Egresos</h3>
 <!-- Tabla para mostrar artículos existentes -->
-<table border="1">
+<table border="1" class="table table-hover">
   <thead>
-    <tr>
+    <tr class="table-danger">
       <th>Numero de remito</th>
       <th>Cliente</th>
       <th>Fecha</th>

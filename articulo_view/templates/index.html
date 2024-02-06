@@ -11,42 +11,53 @@
 <!-- Formulario para agregar artículo -->
 <form method="post" action="{% url 'gestionar_articulos' %}">
   {% csrf_token %}
-  <label for="name">Nombre:</label>
-  <input type="text" name="name" required>
-
-  <label for="unity_id">Unidades:</label>
-  {{ form.unity_id }}
-
-  <button type="submit">Agregar Artículo</button>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="name" class="form-label mt-4">Nombre</label>
+        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Ingrese nombre" name="name" required>
+      </div>
+      <div class="col-md-6">
+        <label for="unity_id" class="form-label mt-4">Unidad</label>
+        <select class="form-select" name="unity_id" id="unity_id">
+          {% for unity in form.unity_id %}
+          <option {{unity}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-success mt-4" type="submit">Agregar Artículo</button>
+  </div>
 </form>
-
+<br>
 <h2>Lista de Articulos</h2>
 <!-- Tabla para mostrar artículos existentes -->
-<table border="1">
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Stock</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for articulo in articulos %}
-    <tr>
-      <td>
-        <a href="{{articulo.name}}"> {{ articulo.name }}</a>
-      </td>
-      <td>{{ articulo.stock_total }} {{ articulo.unity.name }}</td>
-      <td>
-        <form method="get" action="{% url 'del_articulo' articulo.id %}">
-          {% csrf_token %}
-          <button type="submit">Borrar</button>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
+<div class= "col-md-8">
+  <table border="1" class="table table-hover">
+    <thead>
+      <tr class="table-active">
+        <th>Nombre</th>
+        <th>Stock</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for articulo in articulos %}
+      <tr>
+        <td>
+          <a href="{{articulo.name}}"> {{ articulo.name }}</a>
+        </td>
+        <td>{{ articulo.stock_total }} {{ articulo.unity.name }}</td>
+        <td>
+          <form method="get" action="{% url 'del_articulo' articulo.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger">Borrar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}
 

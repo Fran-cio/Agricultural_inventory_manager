@@ -1,27 +1,43 @@
-
+{%load static%}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Localizaciones</title>
+    <link rel= "stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 </head>
   <body>
-    <nav class="navbar container">
-      <ul>
-        <li>
-          <a href="/clientes">Gestor de clientes</a>
-        </li>
-        <li>
-          <a href="/articulos">Inventario</a>
-        </li>
-        <li>
-          <a href="/remitos">Gestor de remitos</a>
-        </li>
-      </ul>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">BullMarket</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Inicio
+                <span class="visually-hidden">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/pais">Gestor de por ubicacion</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/clientes">Gestor de clientes</a></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/articulos">Inventario</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/remitos">Gestor de remitos</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
-
-    <main class="container">
+    <main class="container-fluid">
       {% block content %}
       {% endblock %}
     </main>

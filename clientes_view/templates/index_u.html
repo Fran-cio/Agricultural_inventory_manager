@@ -8,9 +8,9 @@
 
 <h2>Lista de sujetos</h2>
 <!-- Tabla para mostrar artículos existentes -->
-<table border="1">
+<table border="1" class="table table-hover">
   <thead>
-    <tr>
+    <tr class="table-active">
       <th>CUIT</th>
       <th>Nombre</th>
       <th>Pais</th>
@@ -42,7 +42,7 @@
       <td>
         <form method="get" action="{% url 'del_sujeto' sujeto.id %}">
           {% csrf_token %}
-          <button type="submit">Borrar</button>
+          <button type="submit" class="btn btn-outline-danger">Borrar</button>
         </form>
       </td>
     </tr>
