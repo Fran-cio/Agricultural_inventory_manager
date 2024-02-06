@@ -47,7 +47,15 @@
         <td>
           <a href="{{articulo.name}}"> {{ articulo.name }}</a>
         </td>
-        <td>{{ articulo.stock_total }} {{ articulo.unity.name }}</td>
+        <td>
+          {% if articulo.stock_total > 0 %}
+          🟢
+          {% endif %}
+          {% if articulo.stock_total < 0%}
+          🔴
+          {% endif %}
+          {{ articulo.stock_total }} {{ articulo.unity.name }}
+        </td>
         <td>
           <form method="get" action="{% url 'del_articulo' articulo.id %}">
             {% csrf_token %}

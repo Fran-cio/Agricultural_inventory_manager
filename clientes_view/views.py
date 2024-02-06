@@ -7,7 +7,7 @@ from .models import Sujeto
 
 
 def gestionar_sujetos(request):
-    sujetos = Sujeto.objects.all()
+    sujetos = Sujeto.objects.all().order_by("name")
     return render(request, 'index_u.html', {'sujetos': sujetos})
 
 

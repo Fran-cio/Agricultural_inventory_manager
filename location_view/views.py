@@ -116,7 +116,8 @@ def gestionar_localidad(request, pais_name, provincia_name, localidad_name):
         return redirect('gestionar_localidad', pais_name, provincia_name,
                         localidad_name)
 
-    sujetos_de_localidad = Sujeto.objects.filter(location=localidad)
+    sujetos_de_localidad = Sujeto.objects.filter(
+        location=localidad).order_by("-name")
     return render(request, 'localidad.html',
                   {'form': addSujetoLocalidadForm(),
                    'pais': pais_name,
