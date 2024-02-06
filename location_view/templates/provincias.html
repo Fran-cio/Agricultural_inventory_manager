@@ -11,44 +11,57 @@
 <!-- Formulario para agregar artículo -->
 <form method="post" action="{% url 'gestionar_provincias' pais  %}">
   {% csrf_token %}
-  <label for="name">Nombre:</label>
-  <input type="text" name="name" required>
-  <button type="submit">Agregar Provincia</button>
+
+  <label for="name" class="form-label mt-2">Nombre</label>
+
+  <div class="row">
+    <div class="col-md-2">
+      <input type="text" class="form-control" placeholder="Nombre del Pais" name="name">
+
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-success mt-2" type="submit">Agregar Pais</button>
+    </div>
+  </div>
 </form>
 {% endif %}
 
 <h2>Lista de Provincias</h2>
 <!-- Tabla para mostrar artículos existentes -->
-<table border="1">
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Usuarios</th>
-      {% if pais != "ARGENTINA" %}
-      <th>Acciones</th>
-      {% endif%}
-    </tr>
-  </thead>
-  <tbody>
-    {% for provincia in provincias %}
-    <tr>
-      <td>
-        <a href="{{provincia.name}}"> {{ provincia.name }}</a>
-      </td>
-      <td>
-        {{ provincia.cantidad_sujetos}}
-      </td>
 
-      {% if pais != "ARGENTINA" %}
-      <td>
-        <form method="get" action="{% url 'del_provincia' pais provincia.id %}">
-          {% csrf_token %}
-          <button type="submit">Borrar</button>
-        </form>
-      </td>
-      {% endif%}
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="col-md-4 ">
+  <table border="1" class="table table-hover" >
+    <thead>
+      <tr class="table-active">
+        <th>Nombre</th>
+        <th>Usuarios</th>
+        {% if pais != "ARGENTINA" %}
+        <th>Acciones</th>
+        {% endif%}
+      </tr>
+    </thead>
+    <tbody>
+      {% for provincia in provincias %}
+      <tr>
+        <td>
+          <a href="{{provincia.name}}"> {{ provincia.name }}</a>
+        </td>
+        <td>
+          {{ provincia.cantidad_sujetos}}
+        </td>
+
+        {% if pais != "ARGENTINA" %}
+        <td>
+          <form method="get" action="{% url 'del_provincia' pais provincia.id %}">
+            {% csrf_token %}
+            
+          <button type="submit" class="btn btn-outline-danger">Borrar</button>
+          </form>
+        </td>
+        {% endif%}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}    

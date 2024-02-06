@@ -10,31 +10,43 @@
 <!-- Formulario para agregar artículo -->
 <form method="post" action="{% url 'gestionar_paises' %}">
   {% csrf_token %}
-  <label for="name">Nombre:</label>
-  <input type="text" name="name" required>
-  <button type="submit">Agregar Pais</button>
-</form>
 
+  <label for="name" class="form-label mt-2">Nombre</label>
+
+  <div class="row">
+    <div class="col-md-2">
+      <input type="text" class="form-control" placeholder="Nombre del Pais" name="name">
+
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-success mt-2" type="submit">Agregar Pais</button>
+    </div>
+  </div>
+</form>
+<br>
 <h2>Lista de Paises</h2>
 <!-- Tabla para mostrar artículos existentes -->
-<table border="1">
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Usuarios</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for pais in paises %}
-    <tr>
-      <td>
-        <a href="{{pais.name}}"> {{ pais.name }}</a>
-      </td>
-      <td>
-        {{ pais.cantidad_sujetos}}
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+
+<div class="col-md-4 ">
+  <table border="1" class="table table-hover" >
+    <thead>
+      <tr class="table-active">
+        <th>Nombre</th>
+        <th>Usuarios</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pais in paises %}
+      <tr>
+        <td>
+          <a href="{{pais.name}}"> {{ pais.name }}</a>
+        </td>
+        <td>
+          {{ pais.cantidad_sujetos}}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}    

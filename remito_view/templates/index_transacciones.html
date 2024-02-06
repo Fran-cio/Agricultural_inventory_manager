@@ -10,50 +10,75 @@
 
 
 <h1>Remito Nr. {{ remito.nro_remito }}</h1>
+
+<p class="lead">
 <th>Proveedor: <a href=" /clientes/{{remito.provedor.cuit}}"> {{ remito.provedor.name}}</a> </th> <br>
 <th>Cliente: <a href=" /clientes/{{remito.cliente.cuit}}"> {{ remito.cliente.name}}</a> </th><br>
-<th>Fecha: {{ remito.fecha|date:"d/m/y" }}</th><br><br><br>
-<th><a href="{% url 'generar_pdf_remito' remito.id %}" target="_blank">Descargar Remito en PDF</a></th>
+<th>Fecha: {{ remito.fecha|date:"d/m/y" }}</th>
+</p>
+
+<button type="button" class="btn btn-danger ">
+  <a href="{% url 'generar_pdf_remito' remito.id %}" style="text-decoration: none; color: white;" target="_blank">Descargar Remito en PDF <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAABm0lEQVR4nO3WsUsCYRgGcP+E6K9xcxRMT2tRbNNRRQQdWpxycBNdGpzKQRwUElKnE/QivU4OU0uNgpQ0UVEvCJN84hxaSurO66OhB571/fF9vMOrUv2VlPV6TWV/Pyi1JYrK0RrNlmyYs1hCj4kEJhwnqWWKwuXeniAb5yyW0JTnITV1pxPDeBzs7q5wrlZvE4XRbMrHuQ1h2TinACwL5xSCJeOcTJg1GtFwuz+VpSiUDQb61+B1EWeJMxWBF9Mp+qeneJvPycLdWAx1rxdjhiELP0SjaB0eYlQokIWH+TxKOh1eOh2y8EIQwJpMwHJJFhZubnCh1eK51SIL30ciGORyuD44IAcvZjPUPZ6PJeun02Tg7snJqoNsdvVyccmuHA40fD40/X4MaVpZ+HUyQef4GBWrFbfBIJ7OzvDcbuN1NEI7EMBdOIxBJgPeZlMOHjMMai6XeGFgVqt9+ROzahW9ZHK1eIrBvN2+elUvlYLUbASPikVMWFYyujG8Sf7hv/nVjzIO+nUVZ/0ILu3saC/N5iMlK878FiaVd5OpHeNbZpkPAAAAAElFTkSuQmCC"></a>
+</button>
+<br>
+<small class="form-text text-muted">
+  <a  href="https://icons8.com/icon/39195/pdf">PDF</a> icon by <a href="https://icons8.com">Icons8</a>
+</small>
+
 <h2>Agregar insumos</h2>
 <!-- templates/agregar_transaccion.html -->
 <form method="post">
   {% csrf_token %}
-  <label for="articulo">Articulo:</label>
-  {{ form.articulo}}
-  <label for="cantidad">Cantidad:</label>
-  <input type="integer" name="cantidad" required>
-  <br>
-  <button type="submit">Agregar</button>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="articulo" class="form-label">Articulo</label>
+        <select class="form-select" name="articulo">
+          {% for articulo in form.articulo %}
+          <option {{articulo}}</option>
+          {% endfor %}
+        </select>
+      </div>        
+      <div class="col-md-6">
+        <label for="cantidad" class="form-label">Cantidad</label>
+        <input type="Integer" class="form-control" placeholder="Ingrese la cantidad de elementos" name="cantidad" required>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-success mt-2" type="submit">Agregar transaccion</button>
 </form>
 <h2>Lista de insumos</h2>
 <!-- tabla para mostrar artículos existentes -->
-<table border="1">
-  <thead>
-    <tr>
-      <th>Articulo</th>
-      <th>Cantidad</th>
-      <th>Accion</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for transaccion in transacciones %}
-    <tr>
-      <td>
-        <a href="/articulo/{{transaccion.articulo.name}}"> {{ transaccion.articulo.name }}</a>
-      </td>
-      <td>
-        {{ transaccion.cantidad }} {{ transaccion.articulo.unity.name}}
-      </td>
-      <td>
-        <form method="get" action="{% url 'del_transaccion' remito.nro_remito transaccion.id %}">
-          {% csrf_token %}
-          <button type="submit">Borrar</button>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+
+<div class="col-md-8 ">
+  <table border="1" class="table table-hover" >
+    <thead>
+      <tr class="table-active">
+        <th>Articulo</th>
+        <th>Cantidad</th>
+        <th>Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for transaccion in transacciones %}
+      <tr>
+        <td>
+          <a href="/articulo/{{transaccion.articulo.name}}"> {{ transaccion.articulo.name }}</a>
+        </td>
+        <td>
+          {{ transaccion.cantidad }} {{ transaccion.articulo.unity.name}}
+        </td>
+        <td>
+          <form method="get" action="{% url 'del_transaccion' remito.nro_remito transaccion.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger">Borrar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 
 {% endblock %}    
