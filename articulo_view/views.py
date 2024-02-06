@@ -40,6 +40,10 @@ def gestionar_articulos(request):
         # Agregar la información del artículo a la lista
         articulos_info.append(articulo_info)
 
+    # Ordenar la lista de artículos según el stock_total
+    articulos_info = sorted(
+        articulos_info, key=lambda x: x['stock_total'], reverse=True)
+
     return render(request, 'index.html',
                   {'form': ArticuloForm(), 'articulos': articulos_info})
 
@@ -60,10 +64,10 @@ def gestionar_articulo(request, articulo_name):
 
     # Obtén todas las transacciones asociadas a este Articulo
     transacciones_cliente = Transaccion.objects.filter(
-        articulo=articulo, remito__cliente=usuario)
+        articulo=articulo, remito__cliente=usuario).order_by("-remito__fecha")
 
     transacciones_provedor = Transaccion.objects.filter(
-        articulo=articulo, remito__provedor=usuario)
+        articulo=articulo, remito__provedor=usuario).order_by("-remito__fecha")
 
 
 # Calcular la suma del campo cantidad para cada lista de transacciones
