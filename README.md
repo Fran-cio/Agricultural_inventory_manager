@@ -1,0 +1,1 @@
+[![Workflow](https://github.com/Fran-cio/Agricultural_inventory_manager/actions/workflows/workflows.yml/badge.svg)](https://github.com/Fran-cio/Agricultural_inventory_manager/actions/workflows/workflows.yml)

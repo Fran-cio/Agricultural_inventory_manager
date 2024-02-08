@@ -3,10 +3,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count, Value
 from django.db.models.functions import Coalesce
 
+from clientes_view.models import Sujeto
+
 from .models import Pais, Provincia, Localidad
 from .forms import addForm, addSujetoLocalidadForm
 
-from clientes_view.models import Sujeto
 # Create your views here.
 
 
