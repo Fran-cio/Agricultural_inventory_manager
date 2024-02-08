@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
+from django.core.exceptions import ValidationError
+
+from weasyprint import HTML
 
 from .models import Remito, Transaccion
 from .forms import RemitoForm, TransaccionForm
-
-from django.http import HttpResponse
-from weasyprint import HTML
 
 # Create your views here.
 # views.py
@@ -12,15 +13,22 @@ from weasyprint import HTML
 
 def gestionar_remito(request):
     if request.method == 'POST':
-        if (request.POST['provedor'] != request.POST['cliente']):
+        if request.POST['provedor'] != request.POST['cliente']:
             try:
                 Remito.objects.create(
                     nro_remito=request.POST['nro_remito'].upper(),
                     provedor_id=request.POST['provedor'],
                     cliente_id=request.POST['cliente'],
                     fecha=request.POST['fecha'])
-            except Exception as e:
-                print(e)
+            except KeyError:
+                # Capturar la excepción KeyError si falta algún
+                # campo en request.POST
+                print("Falta algún campo en la solicitud.")
+
+            except ValidationError as ve:
+                # Capturar la excepción ValidationError si hay
+                # errores de validación en los datos
+                print("Error de validación al crear el remito:", ve)
         return redirect('gestionar_remito')
 
     remitos = Remito.objects.all().order_by('-fecha')
@@ -49,8 +57,14 @@ def gestionar_transacciones(request, nro_remito):
                 articulo_id=request.POST['articulo'],
                 cantidad=request.POST['cantidad'],
             )
-        except Exception as e:
-            print(e)
+        except KeyError:
+            # Capturar la excepción KeyError si falta algún campo
+            # en request.POST
+            print("Falta algún campo en la solicitud.")
+        except ValidationError as ve:
+            # Capturar la excepción ValidationError si hay errores
+            # de validación en los datos
+            print("Error de validación al crear la transacción:", ve)
         return redirect('gestionar_transacciones', nro_remito)
 
     transacciones = Transaccion.objects.filter(

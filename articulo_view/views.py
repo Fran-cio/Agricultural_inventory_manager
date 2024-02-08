@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import models
 
-from .models import Articulo
-from .forms import ArticuloForm
-
 from remito_view.models import Transaccion
 from clientes_view.models import Sujeto
+
+from .models import Articulo
+from .forms import ArticuloForm
 # Create your views here.
 
 
@@ -19,18 +19,21 @@ def gestionar_articulos(request):
     articulos_info = []
 
     for articulo in Articulo.objects.all():
-        ingresos = Transaccion.objects.filter(articulo=articulo,
-                                              remito__cliente__cuit=20160761661,
-                                              ).aggregate(
+        ingresos = Transaccion.objects.filter(
+            articulo=articulo,
+            remito__cliente__cuit=20160761661,
+        ).aggregate(
             models.Sum('cantidad'))['cantidad__sum'] or 0
-        egresos = Transaccion.objects.filter(articulo=articulo,
-                                             remito__provedor__cuit=20160761661,
-                                             ).aggregate(
+        egresos = Transaccion.objects.filter(
+            articulo=articulo,
+            remito__provedor__cuit=20160761661,
+        ).aggregate(
             models.Sum('cantidad'))['cantidad__sum'] or 0
 
         stock_total = ingresos - egresos
 
-        # Crear una estructura de datos personalizada para contener información del artículo y stock total
+        # Crear una estructura de datos personalizada para contener
+        # información del artículo y stock total
         articulo_info = {
             'id': articulo.id,
             'name': articulo.name,

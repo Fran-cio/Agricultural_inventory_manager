@@ -1,5 +1,7 @@
 # forms.py
+# pylint: disable=duplicate-code,line-too-long
 from django import forms
+from django.db.utils import OperationalError
 
 from location_view.models import Pais, Provincia, Localidad
 from .models import Iva_cat
@@ -17,5 +19,9 @@ class SujetoForm(forms.Form):
     localidad = forms.ModelChoiceField(queryset=Localidad.objects.none(
     ), empty_label="Seleccione una localidad", required=False)
     cuit = forms.IntegerField()
-    iva_id = forms.ChoiceField(
-        choices=[(iva.id, iva.name) for iva in Iva_cat.objects.all()])
+
+    try:
+        iva_id = forms.ChoiceField(
+            choices=[(iva.id, iva.name) for iva in Iva_cat.objects.all()])
+    except OperationalError as e:
+        print("Tabla no cargada - ", e)

@@ -1,4 +1,6 @@
 # forms.py
+
+# pylint: disable=duplicate-code,line-too-long
 from django import forms
 
 from clientes_view.models import Sujeto
