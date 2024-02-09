@@ -3,9 +3,17 @@
 # pylint: disable=duplicate-code,line-too-long
 
 from django import forms
-from django.db.utils import OperationalError
 
 from .models import Unity_cat
+
+
+def get_unity():
+    unitys = [(unity.id, unity.name) for unity in Unity_cat.objects.all()]
+
+    # Agregar opción vacía
+    unitys.insert(0, ("", "-"*100))
+
+    return unitys
 
 
 class ArticuloForm(forms.Form):
@@ -13,9 +21,4 @@ class ArticuloForm(forms.Form):
     name = forms.CharField(label="Titulo de tarea", max_length=200,
                            widget=forms.TextInput(attrs={'class': 'input'}))
 
-    try:
-        unity_id = forms.ChoiceField(
-            choices=[(unity.id, unity.name) for
-                     unity in Unity_cat.objects.all()])
-    except OperationalError as e:
-        print("Tabla no cargada - ", e)
+    unity_id = forms.ChoiceField(choices=get_unity)

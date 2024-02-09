@@ -3,12 +3,16 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count, Value
 from django.db.models.functions import Coalesce
 
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+
 from clientes_view.models import Sujeto
 
 from .models import Pais, Provincia, Localidad
 from .forms import addForm, addSujetoLocalidadForm
 
 # Create your views here.
+# pylint: disable=duplicate-code
 
 
 def gestionar_paises(request):
@@ -106,14 +110,32 @@ def gestionar_localidad(request, pais_name, provincia_name, localidad_name):
         Provincia, pais=pais, name=provincia_name)
     localidad = get_object_or_404(Localidad, provincia=provincia,
                                   name=localidad_name)
-    if request.method == 'POST':
-        Sujeto.objects.create(
-            name=request.POST['name'].upper(),
-            cuit=request.POST['cuit'],
-            address=request.POST['address'].upper(),
-            location=localidad,
-            iva_id=request.POST['iva_id']
-        )
+    try:
+        if request.method == 'POST':
+            Sujeto.objects.create(
+                name=request.POST['name'].upper(),
+                cuit=request.POST['cuit'],
+                address=request.POST['address'].upper(),
+                location=localidad,
+                iva_id=request.POST['iva_id']
+            )
+    except KeyError:
+        # Capturar la excepción KeyError si falta algún campo
+        # en request.POST
+        print("Falta algún campo en la solicitud.")
+    except IntegrityError:
+        # Capturar la excepción KeyError si falta algún campo
+        # en request.POST
+        print("Falta algún campo en la solicitud.")
+    except ValueError:
+        # Capturar la excepción KeyError si falta algún campo
+        # en request.POST
+        print("Algun dato agregado es erroneo.")
+    except ValidationError as ve:
+        # Capturar la excepción ValidationError si hay errores
+        # de validación en los datos
+        print("Error de validación al crear la transacción:", ve)
+
         return redirect('gestionar_localidad', pais_name, provincia_name,
                         localidad_name)
 
