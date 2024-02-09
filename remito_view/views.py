@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 
 from weasyprint import HTML
 
@@ -24,7 +25,14 @@ def gestionar_remito(request):
                 # Capturar la excepción KeyError si falta algún
                 # campo en request.POST
                 print("Falta algún campo en la solicitud.")
-
+            except ValueError:
+                # Capturar la excepción KeyError si falta algún campo
+                # en request.POST
+                print("Algun dato agregado es erroneo.")
+            except IntegrityError:
+                # Capturar la excepción KeyError si falta algún campo
+                # en request.POST
+                print("Falta algún campo en la solicitud.")
             except ValidationError as ve:
                 # Capturar la excepción ValidationError si hay
                 # errores de validación en los datos
@@ -61,6 +69,14 @@ def gestionar_transacciones(request, nro_remito):
             # Capturar la excepción KeyError si falta algún campo
             # en request.POST
             print("Falta algún campo en la solicitud.")
+        except IntegrityError:
+            # Capturar la excepción KeyError si falta algún campo
+            # en request.POST
+            print("Falta algún campo en la solicitud.")
+        except ValueError:
+            # Capturar la excepción KeyError si falta algún campo
+            # en request.POST
+            print("Algun dato agregado es erroneo.")
         except ValidationError as ve:
             # Capturar la excepción ValidationError si hay errores
             # de validación en los datos

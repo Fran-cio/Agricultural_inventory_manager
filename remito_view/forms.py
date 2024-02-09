@@ -1,6 +1,6 @@
 # forms.py
 
-# pylint: disable=duplicate-code,line-too-long
+# pylint: disable=duplicate-code
 from django import forms
 
 from clientes_view.models import Sujeto
@@ -22,7 +22,7 @@ def getSujetos():
     sujetos.insert(0, fernando_ciordia_option[0])
 
     # Agregar opción vacía después del "Sujeto"
-    sujetos.insert(1, ("", "-----------------------------------------------------------------------------"))
+    sujetos.insert(1, ("", "-"*100))
 
     return sujetos
 
@@ -37,8 +37,13 @@ class RemitoForm(forms.Form):
 
 
 def getArticulos():
-    return [(articulo.id, articulo.name)
-            for articulo in Articulo.objects.all().order_by("name")]
+    articulos = [(articulo.id, articulo.name)
+                 for articulo in Articulo.objects.all().order_by("name")]
+
+    # Agregar opción vacía
+    articulos.insert(0, ("", "-"*100))
+
+    return articulos
 
 
 class TransaccionForm(forms.Form):
